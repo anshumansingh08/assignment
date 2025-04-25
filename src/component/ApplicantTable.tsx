@@ -1,5 +1,5 @@
 import { Button, Input, Modal, Select, Space, Table } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Applicant } from "../features/form/formSlice";
 
 interface ApplicantTableProp {
@@ -13,7 +13,7 @@ interface ApplicantTableProp {
 
 const techStackOptions = [
   { label: "Javascript", value: "javascript" },
-  { label: "Typescript", value: "typecript" },
+  { label: "Typescript", value: "typescript" },
   { label: "Angular", value: "angular" },
   { label: "Vue", value: "vue" },
   { label: "Others", value: "others" },
@@ -33,14 +33,13 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
     techStack: [],
     hobbies: "",
   });
-  const [localApplicants, setLocalApplicants] =
-    useState<Applicant[]>(applicants);
+
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [idToDelete, setIdToDelete] = useState<number | null>(null);
 
-  useEffect(() => {
-    setLocalApplicants(applicants);
-  }, [applicants]);
+  // useEffect(() => {
+  //   setLocalApplicants(applicants);
+  // }, [applicants]);
 
   const handleEdit = (applicant: Applicant) => {
     setEditingId(applicant.id);
@@ -65,6 +64,8 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
   const handleDelete = (id: number) => {
     onDeleteApplicant(id);
     setEditingId(null);
+    setDeleteModalVisible(false);
+    setIdToDelete(null);
   };
 
   const handleInputChange = (
@@ -105,9 +106,9 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
     },
     {
       title: "Age",
-      dataIndec: "age",
+      dataIndex: "age",
       key: "age",
-      render: (age: number, record: Applicant) =>
+      render: (age: number | undefined, record: Applicant) =>
         editingId === record.id ? (
           <Input
             name="age"
@@ -115,8 +116,10 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
             value={editedData.age || ""}
             onChange={handleInputChange}
           />
-        ) : (
+        ) : age !== undefined ? (
           age
+        ) : (
+          "N/A"
         ),
     },
     {
@@ -148,7 +151,7 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
             options={[
               { value: "male", label: "Male" },
               { value: "female", label: "Female" },
-              { value: "others", label: "Others" },
+              { value: "other", label: "Other" },
             ]}
           />
         ) : (
@@ -197,7 +200,6 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
       title: "Actions",
       key: "actions",
       render: (_: any, record: Applicant) => {
-        // Changed record: any to record: Applicant
         return (
           <Space className="space-x-2">
             {editingId === record.id ? (
@@ -214,7 +216,6 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
                 Edit
               </Button>
             )}
-            {/* Ant Design Modal for confirmation */}
             <Button title="Delete" onClick={() => showDeleteConfirm(record.id)}>
               Delete
             </Button>
@@ -223,14 +224,15 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
       },
     },
   ];
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4 text-center">Applicants List</h2>
-      {localApplicants.length === 0 ? (
+      {applicants.length === 0 ? (
         <p className="text-center text-gray-500">No applicants added yet.</p>
       ) : (
         <>
-          <Table columns={columns} dataSource={localApplicants} rowKey="id" />
+          <Table columns={columns} dataSource={applicants} rowKey="id" />
           <Modal
             title="Are you sure?"
             open={deleteModalVisible}
@@ -246,7 +248,7 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
           >
             <p>
               This action cannot be undone. This will permanently delete this
-              applicant&apos;s data.
+              applicant data.
             </p>
           </Modal>
         </>
@@ -255,4 +257,4 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
   );
 };
 
-export default ApplicantTable;
+export default React.memo(ApplicantTable);
