@@ -6,6 +6,7 @@ export interface Applicant {
   age: number | undefined;
   email: string;
   gender: "male" | "female" | "other";
+  country: string;
   techStack: string[];
   hobbies: string;
 }
