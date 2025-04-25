@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Radio } from "antd";
+import { Button, Checkbox, Form, Input, Radio, Select } from "antd";
 import React, { useState } from "react";
 import { Applicant } from "../features/form/formSlice";
 
@@ -15,6 +15,7 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
     age: undefined,
     email: "",
     gender: "male",
+    country: "",
     techStack: [],
     hobbies: "",
   });
@@ -51,6 +52,11 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
     setErrors((prevErrors) => ({ ...prevErrors, gender: undefined }));
   };
 
+  const handleCountryChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, country: value }));
+    setErrors((prevErrors) => ({ ...prevErrors, country: undefined }));
+  };
+
   const handleTechStackChange = (checkedValues: string[]) => {
     setFormData((prev) => ({ ...prev, techStack: checkedValues }));
     setErrors((prevErrors) => ({ ...prevErrors, techStack: undefined }));
@@ -77,6 +83,11 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
 
     if (!formData.gender) {
       newErrors.gender = "Gender is required";
+      isValid = false;
+    }
+
+    if (!formData.country) {
+      newErrors.country = "Country is required";
       isValid = false;
     }
 
@@ -107,6 +118,7 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
         age: undefined,
         email: "",
         gender: "male",
+        country: "",
         techStack: [],
         hobbies: "",
       });
@@ -119,7 +131,9 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
     <div className="container mx-auto p-4">
       <div className="form justify-content-center">
         {" "}
-        <h2 className="text-2xl font-bold mb-4 text-center">Applicant Form</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Application Form
+        </h2>
         <Form
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
@@ -170,7 +184,23 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
               onChange={handleChange}
             />
           </Form.Item>
-
+          <Form.Item
+            label="Country"
+            name="country"
+            validateStatus={errors.country ? "error" : ""}
+            help={errors.country}
+          >
+            <Select
+              placeholder="select country"
+              allowClear
+              onChange={handleCountryChange}
+              value={formData.country}
+            >
+              <Select.Option value="India">India</Select.Option>
+              <Select.Option value="US">US</Select.Option>
+              <Select.Option value="Canada">Canada</Select.Option>
+            </Select>
+          </Form.Item>
           <Form.Item
             label="Gender"
             name="gender"
