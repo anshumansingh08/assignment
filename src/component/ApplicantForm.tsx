@@ -186,8 +186,6 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
               <Checkbox value="react">React</Checkbox>
               <Checkbox value="angular">Angular</Checkbox>
               <Checkbox value="vue">Vue</Checkbox>
-              <Checkbox value="python">Python</Checkbox>
-              <Checkbox value="java">Java</Checkbox>
               <Checkbox value="other">Other</Checkbox>
             </div>
           </Checkbox.Group>
