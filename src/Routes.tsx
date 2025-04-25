@@ -1,32 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes as RouteData, useNavigate } from "react-router";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import ApplicantForm from "./component/ApplicantForm";
 import ApplicantTable from "./component/ApplicantTable";
 import NavBar from "./component/NavBar";
-import { Applicant } from "./features/form/formSlice";
+import {
+  Applicant,
+  addApplicant,
+  deleteApplicant,
+  selectApplicants,
+  updateApplicant,
+} from "./features/form/formSlice";
 
 const Routes: React.FC = () => {
-  const [applicants, setApplicants] = useState<Applicant[]>([]);
+  const applicants = useAppSelector(selectApplicants);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const handleAddApplicant = (applicant: Applicant) => {
-    console.log(applicant);
-    setApplicants([...applicants, applicant]);
+    dispatch(addApplicant(applicant));
     navigate("/table");
   };
 
   const handleDeleteApplicant = (id: number) => {
-    setApplicants(applicants.filter((applicant) => applicant.id !== id));
+    dispatch(deleteApplicant(id));
   };
+
   const handleUpdateApplicant = (
     id: number,
     updatedApplicant: Omit<Applicant, "id">
   ) => {
-    setApplicants(
-      applicants.map((applicant) =>
-        applicant.id === id ? { ...updatedApplicant, id } : applicant
-      )
-    );
+    dispatch(updateApplicant({ id, updatedApplicant }));
   };
+
   return (
     <>
       <NavBar />
@@ -50,4 +56,4 @@ const Routes: React.FC = () => {
   );
 };
 
-export default Routes;
+export default React.memo(Routes);
