@@ -19,6 +19,12 @@ const techStackOptions = [
   { label: "Others", value: "others" },
 ];
 
+const countryOptions = [
+  { label: "India", value: "India" },
+  { label: "US", value: "US" },
+  { label: "Canada", value: "Canada" },
+];
+
 const ApplicantTable: React.FC<ApplicantTableProp> = ({
   applicants,
   onUpdateApplicant,
@@ -30,6 +36,7 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
     age: undefined,
     email: "",
     gender: "male",
+    country: "",
     techStack: [],
     hobbies: "",
   });
@@ -48,6 +55,7 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
       age: applicant.age,
       email: applicant.email,
       gender: applicant.gender,
+      country: applicant.country,
       techStack: applicant.techStack,
       hobbies: applicant.hobbies,
     });
@@ -82,6 +90,10 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
   };
   const handleGenderChange = (value: "male" | "female" | "other") => {
     setEditedData((prev) => ({ ...prev, gender: value }));
+  };
+
+  const handleCountryChange = (value: string) => {
+    setEditedData((prev) => ({ ...prev, country: value }));
   };
 
   const handleTechStackChange = (values: string[]) => {
@@ -137,6 +149,27 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
           />
         ) : (
           text
+        ),
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+      key: "country",
+      render: (country: string, record: Applicant) =>
+        editingId === record.id ? (
+          <Select
+            value={editedData.country}
+            onChange={handleCountryChange}
+            className="w-full"
+          >
+            {countryOptions.map((option) => (
+              <Select.Option key={option.value} value={option.value}>
+                {option.label}
+              </Select.Option>
+            ))}
+          </Select>
+        ) : (
+          country
         ),
     },
     {
