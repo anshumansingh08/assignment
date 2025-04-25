@@ -1,0 +1,21 @@
+.form {
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  margin: auto;
+}
+.formitem {
+  display: flex;
+  justify-content: center;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit;
+  margin-right: 5px;
+}
+a:hover {
+  text-decoration: underline;
+}
+.navbar {
+}
