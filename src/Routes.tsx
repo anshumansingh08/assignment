@@ -13,6 +13,20 @@ const Routes: React.FC = () => {
     setApplicants([...applicants, applicant]);
     navigate("/table");
   };
+
+  const handleDeleteApplicant = (id: number) => {
+    setApplicants(applicants.filter((applicant) => applicant.id !== id));
+  };
+  const handleUpdateApplicant = (
+    id: number,
+    updatedApplicant: Omit<Applicant, "id">
+  ) => {
+    setApplicants(
+      applicants.map((applicant) =>
+        applicant.id === id ? { ...updatedApplicant, id } : applicant
+      )
+    );
+  };
   return (
     <>
       <NavBar />
@@ -23,7 +37,13 @@ const Routes: React.FC = () => {
         />
         <Route
           path="/table"
-          element={<ApplicantTable applicants={applicants} />}
+          element={
+            <ApplicantTable
+              applicants={applicants}
+              onDeleteApplicant={handleDeleteApplicant}
+              onUpdateApplicant={handleUpdateApplicant}
+            />
+          }
         />
       </RouteData>
     </>
