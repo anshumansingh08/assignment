@@ -20,7 +20,7 @@ const formSlice = createSlice({
   name: "applicant",
   initialState,
   reducers: {
-    addAplicant: (state, action: PayloadAction<Applicant>) => {
+    addApplicant: (state, action: PayloadAction<Applicant>) => {
       state.applicants.push({ ...action.payload, id: applicantId++ });
     },
     updateApplicant: (
@@ -31,23 +31,23 @@ const formSlice = createSlice({
       }>
     ) => {
       const { id, updatedApplicant } = action.payload;
-      const applicantIdx = state.applicants.findIndex((applicant) => {
-        applicant.id === id;
-      });
+      const applicantIdx = state.applicants.findIndex(
+        (applicant) => applicant.id === id
+      );
       if (applicantIdx !== -1) {
         state.applicants[applicantIdx] = { ...updatedApplicant, id: id };
       }
     },
     deleteApplicant: (state, action: PayloadAction<number>) => {
       const deleteId = action.payload;
-      state.applicants = state.applicants.filter((applicant) => {
-        applicant.id !== deleteId;
-      });
+      state.applicants = state.applicants.filter(
+        (applicant) => applicant.id !== deleteId
+      );
     },
   },
 });
 
-export const { addAplicant, updateApplicant, deleteApplicant } =
+export const { addApplicant, updateApplicant, deleteApplicant } =
   formSlice.actions;
 export const selectApplicants = (state: { applicant: ApplicantState }) =>
   state.applicant.applicants;
