@@ -207,11 +207,7 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ onApplicantAdded }) => {
             validateStatus={errors.gender ? "error" : ""}
             help={errors.gender}
           >
-            <Radio.Group
-              defaultValue="male"
-              onChange={handleGenderChange}
-              value={formData.gender}
-            >
+            <Radio.Group onChange={handleGenderChange} value={formData.gender}>
               <div className="flex items-center space-x-2">
                 <Radio value="male">Male</Radio>
                 <Radio value="female">Female</Radio>

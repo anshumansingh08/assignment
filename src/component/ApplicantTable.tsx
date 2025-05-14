@@ -44,10 +44,6 @@ const ApplicantTable: React.FC<ApplicantTableProp> = ({
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [idToDelete, setIdToDelete] = useState<number | null>(null);
 
-  // useEffect(() => {
-  //   setLocalApplicants(applicants);
-  // }, [applicants]);
-
   const handleEdit = (applicant: Applicant) => {
     setEditingId(applicant.id);
     setEditedData({
